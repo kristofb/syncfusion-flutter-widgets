@@ -17,6 +17,13 @@ else()
   set(PDFium_ARCH "x64")
 endif()
 
+message(WARNING "Detected CPU architecture: ${PDFium_ARCH}")
+message(WARNING "CMAKE_SIZEOF_VOID_P: ${CMAKE_SIZEOF_VOID_P}")
+message(WARNING "CMAKE_GENERATOR_PLATFORM: ${CMAKE_GENERATOR_PLATFORM}")
+message(WARNING "CMAKE_VS_PLATFORM_NAME: ${CMAKE_VS_PLATFORM_NAME}")
+message(WARNING "CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
+message(WARNING "FLUTTER_TARGET_PLATFORM: ${FLUTTER_TARGET_PLATFORM}")
+
 find_file(PDFium_LIBRARY
     NAMES "pdfium.dll"
     PATHS "${CMAKE_CURRENT_LIST_DIR}"
@@ -38,6 +45,16 @@ INTERFACE_INCLUDE_DIRECTORIES "${PDFium_INCLUDE_DIR};${PDFium_INCLUDE_DIR}/cpp"
 find_package_handle_standard_args(PDFium
 REQUIRED_VARS PDFium_LIBRARY PDFium_IMPLIB PDFium_INCLUDE_DIR
 )
+
+# Log PDFium detection results
+if(PDFium_FOUND)
+  message(WARNING "PDFium found successfully")
+  message(WARNING "  Library: ${PDFium_LIBRARY}")
+  message(WARNING "  Import Library: ${PDFium_IMPLIB}")
+  message(WARNING "  Include Directory: ${PDFium_INCLUDE_DIR}")
+else()
+  message(WARNING "PDFium not found - plugin may not build correctly")
+endif()
 
 set(PLUGIN_NAME "syncfusion_pdfviewer_windows_plugin")
 
